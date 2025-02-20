@@ -1,0 +1,44 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"name":"local-path-provisioner-role"},"rules":[{"apiGroups":[""],"resources":["nodes","persistentvolumeclaims","configmaps"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["endpoints","persistentvolumes","pods"],"verbs":["*"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","patch"]},{"apiGroups":["storage.k8s.io"],"resources":["storageclasses"],"verbs":["get","list","watch"]}]}
+  creationTimestamp: "2025-02-20T22:13:09Z"
+  name: local-path-provisioner-role
+  resourceVersion: "238"
+  uid: 6b5a9b79-6529-443a-8847-049e4dcb6740
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - persistentvolumeclaims
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  - persistentvolumes
+  - pods
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - get
+  - list
+  - watch
