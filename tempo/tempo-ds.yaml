@@ -1,111 +1,84 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"apps/v1","kind":"StatefulSet","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"tempo","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"tempo","app.kubernetes.io/version":"2.2.2","helm.sh/chart":"tempo-1.6.1"},"name":"tempo","namespace":"tempo"},"spec":{"replicas":1,"selector":{"matchLabels":{"app.kubernetes.io/instance":"tempo","app.kubernetes.io/name":"tempo"}},"serviceName":"tempo-headless","template":{"metadata":{"annotations":{"checksum/config":"bd6e8c69e8b055e5473f7a6e4db7af4cdf8b0d2f735f014660fce63b0ce98cb3"},"labels":{"app.kubernetes.io/instance":"tempo","app.kubernetes.io/name":"tempo"}},"spec":{"automountServiceAccountToken":true,"containers":[{"args":["-config.file=/conf/tempo.yaml","-mem-ballast-size-mbs=1024"],"env":null,"image":"grafana/tempo:2.2.2","imagePullPolicy":"IfNotPresent","name":"tempo","ports":[{"containerPort":3100,"name":"prom-metrics"},{"containerPort":6831,"name":"jaeger-thrift-c","protocol":"UDP"},{"containerPort":6832,"name":"jaeger-thrift-b","protocol":"UDP"},{"containerPort":14268,"name":"jaeger-thrift-h"},{"containerPort":14250,"name":"jaeger-grpc"},{"containerPort":9411,"name":"zipkin"},{"containerPort":55680,"name":"otlp-legacy"},{"containerPort":4317,"name":"otlp-grpc"},{"containerPort":55681,"name":"otlp-httplegacy"},{"containerPort":4318,"name":"otlp-http"},{"containerPort":55678,"name":"opencensus"}],"resources":{},"volumeMounts":[{"mountPath":"/conf","name":"tempo-conf"}]}],"serviceAccountName":"tempo","volumes":[{"configMap":{"name":"tempo"},"name":"tempo-conf"}]}},"updateStrategy":{"type":"RollingUpdate"}}}
-  creationTimestamp: "2025-02-21T00:41:09Z"
-  generation: 1
+  name: tempo
+  namespace: tempo
   labels:
     app.kubernetes.io/instance: tempo
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: tempo
-    app.kubernetes.io/version: 2.2.2
+    app.kubernetes.io/version: "2.2.2"
     helm.sh/chart: tempo-1.6.1
-  name: tempo
-  namespace: tempo
-  resourceVersion: "5208"
-  uid: 837d8026-8e9f-4bc3-92f3-c5107b32c675
 spec:
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Retain
-    whenScaled: Retain
-  podManagementPolicy: OrderedReady
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app.kubernetes.io/instance: tempo
       app.kubernetes.io/name: tempo
   serviceName: tempo-headless
+  podManagementPolicy: OrderedReady
+  revisionHistoryLimit: 10
+  updateStrategy:
+    type: RollingUpdate
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
   template:
     metadata:
-      annotations:
-        checksum/config: bd6e8c69e8b055e5473f7a6e4db7af4cdf8b0d2f735f014660fce63b0ce98cb3
-      creationTimestamp: null
       labels:
         app.kubernetes.io/instance: tempo
         app.kubernetes.io/name: tempo
+      annotations:
+        checksum/config: bd6e8c69e8b055e5473f7a6e4db7af4cdf8b0d2f735f014660fce63b0ce98cb3
     spec:
+      serviceAccountName: tempo
       automountServiceAccountToken: true
       containers:
-      - args:
-        - -config.file=/conf/tempo.yaml
-        - -mem-ballast-size-mbs=1024
+      - name: tempo
         image: grafana/tempo:2.2.2
         imagePullPolicy: IfNotPresent
-        name: tempo
+        args:
+          - -config.file=/conf/tempo.yaml
+          - -mem-ballast-size-mbs=1024
         ports:
-        - containerPort: 3100
-          name: prom-metrics
-          protocol: TCP
-        - containerPort: 6831
-          name: jaeger-thrift-c
-          protocol: UDP
-        - containerPort: 6832
-          name: jaeger-thrift-b
-          protocol: UDP
-        - containerPort: 14268
-          name: jaeger-thrift-h
-          protocol: TCP
-        - containerPort: 14250
-          name: jaeger-grpc
-          protocol: TCP
-        - containerPort: 9411
-          name: zipkin
-          protocol: TCP
-        - containerPort: 55680
-          name: otlp-legacy
-          protocol: TCP
-        - containerPort: 4317
-          name: otlp-grpc
-          protocol: TCP
-        - containerPort: 55681
-          name: otlp-httplegacy
-          protocol: TCP
-        - containerPort: 4318
-          name: otlp-http
-          protocol: TCP
-        - containerPort: 55678
-          name: opencensus
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
+          - containerPort: 3100
+            name: prom-metrics
+            protocol: TCP
+          - containerPort: 6831
+            name: jaeger-thrift-c
+            protocol: UDP
+          - containerPort: 6832
+            name: jaeger-thrift-b
+            protocol: UDP
+          - containerPort: 14268
+            name: jaeger-thrift-h
+            protocol: TCP
+          - containerPort: 14250
+            name: jaeger-grpc
+            protocol: TCP
+          - containerPort: 9411
+            name: zipkin
+            protocol: TCP
+          - containerPort: 55680
+            name: otlp-legacy
+            protocol: TCP
+          - containerPort: 4317
+            name: otlp-grpc
+            protocol: TCP
+          - containerPort: 55681
+            name: otlp-httplegacy
+            protocol: TCP
+          - containerPort: 4318
+            name: otlp-http
+            protocol: TCP
+          - containerPort: 55678
+            name: opencensus
+            protocol: TCP
         volumeMounts:
-        - mountPath: /conf
-          name: tempo-conf
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      serviceAccount: tempo
-      serviceAccountName: tempo
-      terminationGracePeriodSeconds: 30
+          - name: tempo-conf
+            mountPath: /conf
       volumes:
-      - configMap:
-          defaultMode: 420
-          name: tempo
-        name: tempo-conf
-  updateStrategy:
-    type: RollingUpdate
-status:
-  availableReplicas: 1
-  collisionCount: 0
-  currentReplicas: 1
-  currentRevision: tempo-6c768bc97d
-  observedGeneration: 1
-  readyReplicas: 1
-  replicas: 1
-  updateRevision: tempo-6c768bc97d
-  updatedReplicas: 1
+        - name: tempo-conf
+          configMap:
+            name: tempo
+            defaultMode: 420

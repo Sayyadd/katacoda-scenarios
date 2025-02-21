@@ -1,2 +1,12 @@
-NAME    SECRETS   AGE
-tempo   0         35m
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tempo
+  namespace: tempo
+  labels:
+    app.kubernetes.io/instance: tempo
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: tempo
+    app.kubernetes.io/version: "2.2.2"
+    helm.sh/chart: tempo-1.6.1
+automountServiceAccountToken: true
