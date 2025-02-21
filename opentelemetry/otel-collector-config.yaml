@@ -1,2 +1,74 @@
-NAME             DATA   AGE
-otel-collector   1      46m
+apiVersion: v1
+data:
+  collector.yaml: |
+    receivers:
+      jaeger:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:14250
+          thrift_http:
+            endpoint: 0.0.0.0:14268
+          thrift_compact:
+            endpoint: 0.0.0.0:6831
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    processors:
+      batch: {}
+      memory_limiter:
+        check_interval: 5s
+        limit_mib: 409
+        spike_limit_mib: 128
+
+    exporters:
+      logging:
+        loglevel: info
+      otlp:
+        endpoint: tempo.tempo.svc.cluster.local:4317
+        tls:
+          insecure: true
+
+    service:
+      telemetry:
+        logs:
+          level: info
+          encoding: console
+      pipelines:
+        traces:
+          receivers:
+            - otlp
+            - jaeger
+          processors:
+            - memory_limiter
+            - batch
+          exporters:
+            - logging
+            - otlp
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
+  creationTimestamp: "2025-02-21T00:41:20Z"
+  labels:
+    app.kubernetes.io/component: opentelemetry-collector
+    app.kubernetes.io/instance: opentelemetry-operator.otel
+    app.kubernetes.io/managed-by: opentelemetry-operator
+    app.kubernetes.io/name: otel-collector
+    app.kubernetes.io/part-of: opentelemetry
+    app.kubernetes.io/version: 0.60.0
+  name: otel-collector
+  namespace: opentelemetry-operator
+  ownerReferences:
+  - apiVersion: opentelemetry.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: OpenTelemetryCollector
+    name: otel
+    uid: e0f3db69-a5eb-4255-b274-2fc0f9473f3e
+  resourceVersion: "5239"
+  uid: d53aa600-e2cc-4d49-ac00-d33840e2107a
