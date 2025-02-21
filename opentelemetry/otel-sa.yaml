@@ -1,48 +1,28 @@
 apiVersion: v1
-items:
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator","namespace":"opentelemetry-operator"}}
-    creationTimestamp: "2025-02-21T00:41:10Z"
-    labels:
-      app.kubernetes.io/component: controller-manager
-      app.kubernetes.io/instance: opentelemetry-operator
-      app.kubernetes.io/managed-by: Helm
-      app.kubernetes.io/name: opentelemetry-operator
-      app.kubernetes.io/version: 0.85.0
-      helm.sh/chart: opentelemetry-operator-0.39.1
-    name: opentelemetry-operator
-    namespace: opentelemetry-operator
-    resourceVersion: "5138"
-    uid: bf75d664-3d7c-4799-90a4-637d986afbe8
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
-    creationTimestamp: "2025-02-21T00:41:20Z"
-    labels:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/name: otel-collector
-      app.kubernetes.io/part-of: opentelemetry
-      app.kubernetes.io/version: 0.60.0
-    name: otel-collector
-    namespace: opentelemetry-operator
-    ownerReferences:
-    - apiVersion: opentelemetry.io/v1alpha1
-      blockOwnerDeletion: true
-      controller: true
-      kind: OpenTelemetryCollector
-      name: otel
-      uid: e0f3db69-a5eb-4255-b274-2fc0f9473f3e
-    resourceVersion: "5243"
-    uid: f1bb912f-4ce5-4477-967f-350811582d60
 kind: List
-metadata:
-  resourceVersion: ""
+items:
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: opentelemetry-operator
+      namespace: opentelemetry-operator
+      labels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/instance: opentelemetry-operator
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: opentelemetry-operator
+        app.kubernetes.io/version: "0.85.0"
+        helm.sh/chart: opentelemetry-operator-0.39.1
+
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: otel-collector
+      namespace: opentelemetry-operator
+      labels:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/name: otel-collector
+        app.kubernetes.io/part-of: opentelemetry
+        app.kubernetes.io/version: "0.60.0"
