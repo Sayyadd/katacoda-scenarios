@@ -1,34 +1,19 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  annotations:
-    deprecated.daemonset.template.generation: "1"
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
-    opentelemetry-operator-config/sha256: c8319ccf15e64699de2c530c429c344979049b0e75e58570bc03bd5655576403
-    prometheus.io/path: /metrics
-    prometheus.io/port: "8888"
-    prometheus.io/scrape: "true"
-  creationTimestamp: "2025-02-20T23:39:28Z"
-  generation: 1
+  name: otel-collector
+  namespace: opentelemetry-operator
   labels:
     app.kubernetes.io/component: opentelemetry-collector
     app.kubernetes.io/instance: opentelemetry-operator.otel
     app.kubernetes.io/managed-by: opentelemetry-operator
     app.kubernetes.io/name: otel-collector
     app.kubernetes.io/part-of: opentelemetry
-    app.kubernetes.io/version: 0.60.0
-  name: otel-collector
-  namespace: opentelemetry-operator
-  ownerReferences:
-  - apiVersion: opentelemetry.io/v1alpha1
-    blockOwnerDeletion: true
-    controller: true
-    kind: OpenTelemetryCollector
-    name: otel
-    uid: da16d0e9-ac3c-48a3-b753-96fc800ee517
-  resourceVersion: "4686"
-  uid: c686f44b-3d33-4204-b39e-9f6b2a13583f
+    app.kubernetes.io/version: "0.60.0"
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: "8888"
+    prometheus.io/scrape: "true"
 spec:
   revisionHistoryLimit: 10
   selector:
@@ -37,87 +22,64 @@ spec:
       app.kubernetes.io/instance: opentelemetry-operator.otel
       app.kubernetes.io/managed-by: opentelemetry-operator
       app.kubernetes.io/part-of: opentelemetry
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   template:
     metadata:
-      annotations:
-        kubectl.kubernetes.io/last-applied-configuration: |
-          {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
-        opentelemetry-operator-config/sha256: c8319ccf15e64699de2c530c429c344979049b0e75e58570bc03bd5655576403
-        prometheus.io/path: /metrics
-        prometheus.io/port: "8888"
-        prometheus.io/scrape: "true"
-      creationTimestamp: null
       labels:
         app.kubernetes.io/component: opentelemetry-collector
         app.kubernetes.io/instance: opentelemetry-operator.otel
         app.kubernetes.io/managed-by: opentelemetry-operator
         app.kubernetes.io/name: otel-collector
         app.kubernetes.io/part-of: opentelemetry
-        app.kubernetes.io/version: 0.60.0
+        app.kubernetes.io/version: "0.60.0"
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8888"
+        prometheus.io/scrape: "true"
     spec:
+      hostNetwork: true
+      serviceAccountName: otel-collector
       containers:
-      - args:
-        - --config=/conf/collector.yaml
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.name
+      - name: otc-container
         image: otel/opentelemetry-collector-contrib:0.60.0
         imagePullPolicy: IfNotPresent
-        name: otc-container
+        args:
+          - --config=/conf/collector.yaml
         ports:
-        - containerPort: 14250
-          name: jaeger-grpc
-          protocol: TCP
-        - containerPort: 8888
-          name: metrics
-          protocol: TCP
-        - containerPort: 4317
-          name: otlp-grpc
-          protocol: TCP
-        - containerPort: 4318
-          name: otlp-http
-          protocol: TCP
-        - containerPort: 14268
-          name: port-14268
-          protocol: TCP
-        - containerPort: 6831
-          name: port-6831
-          protocol: UDP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
+          - containerPort: 14250
+            name: jaeger-grpc
+            protocol: TCP
+          - containerPort: 8888
+            name: metrics
+            protocol: TCP
+          - containerPort: 4317
+            name: otlp-grpc
+            protocol: TCP
+          - containerPort: 4318
+            name: otlp-http
+            protocol: TCP
+          - containerPort: 14268
+            name: port-14268
+            protocol: TCP
+          - containerPort: 6831
+            name: port-6831
+            protocol: UDP
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
         volumeMounts:
-        - mountPath: /conf
-          name: otc-internal
-      dnsPolicy: ClusterFirstWithHostNet
-      hostNetwork: true
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      serviceAccount: otel-collector
-      serviceAccountName: otel-collector
-      terminationGracePeriodSeconds: 30
+          - name: otc-internal
+            mountPath: /conf
       volumes:
-      - configMap:
-          defaultMode: 420
-          items:
-          - key: collector.yaml
-            path: collector.yaml
-          name: otel-collector
-        name: otc-internal
-  updateStrategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 1
-    type: RollingUpdate
-status:
-  currentNumberScheduled: 2
-  desiredNumberScheduled: 2
-  numberAvailable: 2
-  numberMisscheduled: 0
-  numberReady: 2
-  observedGeneration: 1
-  updatedNumberScheduled: 2
+        - name: otc-internal
+          configMap:
+            name: otel-collector
+            items:
+              - key: collector.yaml
+                path: collector.yaml
