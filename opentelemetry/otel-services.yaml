@@ -1,230 +1,143 @@
 apiVersion: v1
-items:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator","namespace":"opentelemetry-operator"},"spec":{"ports":[{"name":"https","port":8443,"protocol":"TCP","targetPort":"https"},{"name":"metrics","port":8080,"protocol":"TCP","targetPort":"metrics"}],"selector":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/name":"opentelemetry-operator"}}}
-    creationTimestamp: "2025-02-20T23:39:21Z"
-    labels:
-      app.kubernetes.io/component: controller-manager
-      app.kubernetes.io/instance: opentelemetry-operator
-      app.kubernetes.io/managed-by: Helm
-      app.kubernetes.io/name: opentelemetry-operator
-      app.kubernetes.io/version: 0.85.0
-      helm.sh/chart: opentelemetry-operator-0.39.1
-    name: opentelemetry-operator
-    namespace: opentelemetry-operator
-    resourceVersion: "4504"
-    uid: 5ee7b8a9-2a18-499e-b324-979ae566c4d5
-  spec:
-    clusterIP: 10.96.69.30
-    clusterIPs:
-    - 10.96.69.30
-    internalTrafficPolicy: Cluster
-    ipFamilies:
-    - IPv4
-    ipFamilyPolicy: SingleStack
-    ports:
-    - name: https
-      port: 8443
-      protocol: TCP
-      targetPort: https
-    - name: metrics
-      port: 8080
-      protocol: TCP
-      targetPort: metrics
-    selector:
-      app.kubernetes.io/component: controller-manager
-      app.kubernetes.io/name: opentelemetry-operator
-    sessionAffinity: None
-    type: ClusterIP
-  status:
-    loadBalancer: {}
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
-    creationTimestamp: "2025-02-20T23:39:28Z"
-    labels:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/name: otel-collector
-      app.kubernetes.io/part-of: opentelemetry
-      app.kubernetes.io/version: 0.60.0
-    name: otel-collector
-    namespace: opentelemetry-operator
-    ownerReferences:
-    - apiVersion: opentelemetry.io/v1alpha1
-      blockOwnerDeletion: true
-      controller: true
-      kind: OpenTelemetryCollector
-      name: otel
-      uid: da16d0e9-ac3c-48a3-b753-96fc800ee517
-    resourceVersion: "4597"
-    uid: 31af94f8-b409-405d-aa1b-ba66196ccb5f
-  spec:
-    clusterIP: 10.96.156.210
-    clusterIPs:
-    - 10.96.156.210
-    internalTrafficPolicy: Local
-    ipFamilies:
-    - IPv4
-    ipFamilyPolicy: SingleStack
-    ports:
-    - appProtocol: grpc
-      name: jaeger-grpc
-      port: 14250
-      protocol: TCP
-      targetPort: 14250
-    - appProtocol: grpc
-      name: otlp-grpc
-      port: 4317
-      protocol: TCP
-      targetPort: 4317
-    - appProtocol: http
-      name: otlp-http
-      port: 4318
-      protocol: TCP
-      targetPort: 4318
-    - appProtocol: http
-      name: port-14268
-      port: 14268
-      protocol: TCP
-      targetPort: 14268
-    - name: port-6831
-      port: 6831
-      protocol: UDP
-      targetPort: 6831
-    selector:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/part-of: opentelemetry
-    sessionAffinity: None
-    type: ClusterIP
-  status:
-    loadBalancer: {}
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
-      service.beta.openshift.io/serving-cert-secret-name: otel-collector-headless-tls
-    creationTimestamp: "2025-02-20T23:39:28Z"
-    labels:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/name: otel-collector
-      app.kubernetes.io/part-of: opentelemetry
-      app.kubernetes.io/version: 0.60.0
-      operator.opentelemetry.io/collector-headless-service: Exists
-    name: otel-collector-headless
-    namespace: opentelemetry-operator
-    ownerReferences:
-    - apiVersion: opentelemetry.io/v1alpha1
-      blockOwnerDeletion: true
-      controller: true
-      kind: OpenTelemetryCollector
-      name: otel
-      uid: da16d0e9-ac3c-48a3-b753-96fc800ee517
-    resourceVersion: "4603"
-    uid: e9deeeeb-3c1d-41cc-bec1-b955e225b7ae
-  spec:
-    clusterIP: None
-    clusterIPs:
-    - None
-    internalTrafficPolicy: Local
-    ipFamilies:
-    - IPv4
-    ipFamilyPolicy: SingleStack
-    ports:
-    - appProtocol: grpc
-      name: jaeger-grpc
-      port: 14250
-      protocol: TCP
-      targetPort: 14250
-    - appProtocol: grpc
-      name: otlp-grpc
-      port: 4317
-      protocol: TCP
-      targetPort: 4317
-    - appProtocol: http
-      name: otlp-http
-      port: 4318
-      protocol: TCP
-      targetPort: 4318
-    - appProtocol: http
-      name: port-14268
-      port: 14268
-      protocol: TCP
-      targetPort: 14268
-    - name: port-6831
-      port: 6831
-      protocol: UDP
-      targetPort: 6831
-    selector:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/part-of: opentelemetry
-    sessionAffinity: None
-    type: ClusterIP
-  status:
-    loadBalancer: {}
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"opentelemetry.io/v1alpha1","kind":"OpenTelemetryCollector","metadata":{"annotations":{},"name":"otel","namespace":"opentelemetry-operator"},"spec":{"config":"receivers:\n  jaeger:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:14250\n      thrift_http:\n        endpoint: 0.0.0.0:14268\n      thrift_compact:\n        endpoint: 0.0.0.0:6831\n  otlp:\n    protocols:\n      grpc:\n        endpoint: 0.0.0.0:4317\n      http:\n        endpoint: 0.0.0.0:4318\n\nprocessors:\n  batch: {}\n  memory_limiter:\n    check_interval: 5s\n    limit_mib: 409\n    spike_limit_mib: 128\n\nexporters:\n  logging:\n    loglevel: info\n  otlp:\n    endpoint: tempo.tempo.svc.cluster.local:4317\n    tls:\n      insecure: true\n\nservice:\n  telemetry:\n    logs:\n      level: info\n      encoding: console\n  pipelines:\n    traces:\n      receivers:\n        - otlp\n        - jaeger\n      processors:\n        - memory_limiter\n        - batch\n      exporters:\n        - logging\n        - otlp\n","hostNetwork":true,"image":"otel/opentelemetry-collector-contrib:0.60.0","mode":"daemonset"}}
-    creationTimestamp: "2025-02-20T23:39:28Z"
-    labels:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/name: otel-collector-monitoring
-      app.kubernetes.io/part-of: opentelemetry
-      app.kubernetes.io/version: 0.60.0
-    name: otel-collector-monitoring
-    namespace: opentelemetry-operator
-    ownerReferences:
-    - apiVersion: opentelemetry.io/v1alpha1
-      blockOwnerDeletion: true
-      controller: true
-      kind: OpenTelemetryCollector
-      name: otel
-      uid: da16d0e9-ac3c-48a3-b753-96fc800ee517
-    resourceVersion: "4612"
-    uid: 0081102c-9797-41bc-9eb5-56499470b5f3
-  spec:
-    clusterIP: 10.96.117.193
-    clusterIPs:
-    - 10.96.117.193
-    internalTrafficPolicy: Cluster
-    ipFamilies:
-    - IPv4
-    ipFamilyPolicy: SingleStack
-    ports:
-    - name: monitoring
-      port: 8888
-      protocol: TCP
-      targetPort: 8888
-    selector:
-      app.kubernetes.io/component: opentelemetry-collector
-      app.kubernetes.io/instance: opentelemetry-operator.otel
-      app.kubernetes.io/managed-by: opentelemetry-operator
-      app.kubernetes.io/part-of: opentelemetry
-    sessionAffinity: None
-    type: ClusterIP
-  status:
-    loadBalancer: {}
 kind: List
-metadata:
-  resourceVersion: ""
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: opentelemetry-operator
+      namespace: opentelemetry-operator
+      labels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/instance: opentelemetry-operator
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: opentelemetry-operator
+        app.kubernetes.io/version: "0.85.0"
+        helm.sh/chart: opentelemetry-operator-0.39.1
+    spec:
+      type: ClusterIP
+      ports:
+        - name: https
+          port: 8443
+          protocol: TCP
+          targetPort: https
+        - name: metrics
+          port: 8080
+          protocol: TCP
+          targetPort: metrics
+      selector:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/name: opentelemetry-operator
+      sessionAffinity: None
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: otel-collector
+      namespace: opentelemetry-operator
+      labels:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/name: otel-collector
+        app.kubernetes.io/part-of: opentelemetry
+        app.kubernetes.io/version: "0.60.0"
+    spec:
+      type: ClusterIP
+      ports:
+        - name: jaeger-grpc
+          port: 14250
+          protocol: TCP
+          targetPort: 14250
+        - name: otlp-grpc
+          port: 4317
+          protocol: TCP
+          targetPort: 4317
+        - name: otlp-http
+          port: 4318
+          protocol: TCP
+          targetPort: 4318
+        - name: port-14268
+          port: 14268
+          protocol: TCP
+          targetPort: 14268
+        - name: port-6831
+          port: 6831
+          protocol: UDP
+          targetPort: 6831
+      selector:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/part-of: opentelemetry
+      sessionAffinity: None
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: otel-collector-headless
+      namespace: opentelemetry-operator
+      labels:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/name: otel-collector
+        app.kubernetes.io/part-of: opentelemetry
+        app.kubernetes.io/version: "0.60.0"
+        operator.opentelemetry.io/collector-headless-service: "Exists"
+    spec:
+      # Headless service
+      clusterIP: None
+      type: ClusterIP
+      ports:
+        - name: jaeger-grpc
+          port: 14250
+          protocol: TCP
+          targetPort: 14250
+        - name: otlp-grpc
+          port: 4317
+          protocol: TCP
+          targetPort: 4317
+        - name: otlp-http
+          port: 4318
+          protocol: TCP
+          targetPort: 4318
+        - name: port-14268
+          port: 14268
+          protocol: TCP
+          targetPort: 14268
+        - name: port-6831
+          port: 6831
+          protocol: UDP
+          targetPort: 6831
+      selector:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/part-of: opentelemetry
+      sessionAffinity: None
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: otel-collector-monitoring
+      namespace: opentelemetry-operator
+      labels:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/name: otel-collector-monitoring
+        app.kubernetes.io/part-of: opentelemetry
+        app.kubernetes.io/version: "0.60.0"
+    spec:
+      type: ClusterIP
+      ports:
+        - name: monitoring
+          port: 8888
+          protocol: TCP
+          targetPort: 8888
+      selector:
+        app.kubernetes.io/component: opentelemetry-collector
+        app.kubernetes.io/instance: opentelemetry-operator.otel
+        app.kubernetes.io/managed-by: opentelemetry-operator
+        app.kubernetes.io/part-of: opentelemetry
+      sessionAffinity: None
