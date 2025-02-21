@@ -1,0 +1,214 @@
+apiVersion: v1
+items:
+- apiVersion: batch/v1
+  kind: Job
+  metadata:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    creationTimestamp: "2025-02-21T05:44:46Z"
+    generation: 1
+    labels:
+      app: kube-prometheus-stack-admission-create
+      app.kubernetes.io/component: prometheus-operator-webhook
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-admission-create
+    namespace: monitoring
+    resourceVersion: "11143"
+    uid: 5d59ead9-7918-4cf8-b7d7-deed969a1868
+  spec:
+    backoffLimit: 6
+    completionMode: NonIndexed
+    completions: 1
+    manualSelector: false
+    parallelism: 1
+    podReplacementPolicy: TerminatingOrFailed
+    selector:
+      matchLabels:
+        batch.kubernetes.io/controller-uid: 5d59ead9-7918-4cf8-b7d7-deed969a1868
+    suspend: false
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: kube-prometheus-stack-admission-create
+          app.kubernetes.io/component: prometheus-operator-webhook
+          app.kubernetes.io/instance: prometheus
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+          app.kubernetes.io/part-of: kube-prometheus-stack
+          app.kubernetes.io/version: 56.6.2
+          batch.kubernetes.io/controller-uid: 5d59ead9-7918-4cf8-b7d7-deed969a1868
+          batch.kubernetes.io/job-name: prometheus-k8s-admission-create
+          chart: kube-prometheus-stack-56.6.2
+          controller-uid: 5d59ead9-7918-4cf8-b7d7-deed969a1868
+          heritage: Helm
+          job-name: prometheus-k8s-admission-create
+          release: prometheus
+        name: prometheus-k8s-admission-create
+      spec:
+        containers:
+        - args:
+          - create
+          - --host=prometheus-k8s-operator,prometheus-k8s-operator.monitoring.svc
+          - --namespace=monitoring
+          - --secret-name=prometheus-k8s-admission
+          image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
+          imagePullPolicy: IfNotPresent
+          name: create
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: OnFailure
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 2000
+          runAsNonRoot: true
+          runAsUser: 2000
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: prometheus-k8s-admission
+        serviceAccountName: prometheus-k8s-admission
+        terminationGracePeriodSeconds: 30
+  status:
+    completionTime: "2025-02-21T05:44:54Z"
+    conditions:
+    - lastProbeTime: "2025-02-21T05:44:54Z"
+      lastTransitionTime: "2025-02-21T05:44:54Z"
+      message: Reached expected number of succeeded pods
+      reason: CompletionsReached
+      status: "True"
+      type: SuccessCriteriaMet
+    - lastProbeTime: "2025-02-21T05:44:54Z"
+      lastTransitionTime: "2025-02-21T05:44:54Z"
+      message: Reached expected number of succeeded pods
+      reason: CompletionsReached
+      status: "True"
+      type: Complete
+    ready: 0
+    startTime: "2025-02-21T05:44:46Z"
+    succeeded: 1
+    terminating: 0
+    uncountedTerminatedPods: {}
+- apiVersion: batch/v1
+  kind: Job
+  metadata:
+    annotations:
+      helm.sh/hook: post-install,post-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    creationTimestamp: "2025-02-21T05:44:46Z"
+    generation: 1
+    labels:
+      app: kube-prometheus-stack-admission-patch
+      app.kubernetes.io/component: prometheus-operator-webhook
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-admission-patch
+    namespace: monitoring
+    resourceVersion: "11172"
+    uid: 1743fbe9-ab3b-491e-be7b-405af7fb7776
+  spec:
+    backoffLimit: 6
+    completionMode: NonIndexed
+    completions: 1
+    manualSelector: false
+    parallelism: 1
+    podReplacementPolicy: TerminatingOrFailed
+    selector:
+      matchLabels:
+        batch.kubernetes.io/controller-uid: 1743fbe9-ab3b-491e-be7b-405af7fb7776
+    suspend: false
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: kube-prometheus-stack-admission-patch
+          app.kubernetes.io/component: prometheus-operator-webhook
+          app.kubernetes.io/instance: prometheus
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+          app.kubernetes.io/part-of: kube-prometheus-stack
+          app.kubernetes.io/version: 56.6.2
+          batch.kubernetes.io/controller-uid: 1743fbe9-ab3b-491e-be7b-405af7fb7776
+          batch.kubernetes.io/job-name: prometheus-k8s-admission-patch
+          chart: kube-prometheus-stack-56.6.2
+          controller-uid: 1743fbe9-ab3b-491e-be7b-405af7fb7776
+          heritage: Helm
+          job-name: prometheus-k8s-admission-patch
+          release: prometheus
+        name: prometheus-k8s-admission-patch
+      spec:
+        containers:
+        - args:
+          - patch
+          - --webhook-name=prometheus-k8s-admission
+          - --namespace=monitoring
+          - --secret-name=prometheus-k8s-admission
+          - --patch-failure-policy=
+          image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
+          imagePullPolicy: IfNotPresent
+          name: patch
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: OnFailure
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 2000
+          runAsNonRoot: true
+          runAsUser: 2000
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: prometheus-k8s-admission
+        serviceAccountName: prometheus-k8s-admission
+        terminationGracePeriodSeconds: 30
+  status:
+    completionTime: "2025-02-21T05:44:55Z"
+    conditions:
+    - lastProbeTime: "2025-02-21T05:44:55Z"
+      lastTransitionTime: "2025-02-21T05:44:55Z"
+      message: Reached expected number of succeeded pods
+      reason: CompletionsReached
+      status: "True"
+      type: SuccessCriteriaMet
+    - lastProbeTime: "2025-02-21T05:44:55Z"
+      lastTransitionTime: "2025-02-21T05:44:55Z"
+      message: Reached expected number of succeeded pods
+      reason: CompletionsReached
+      status: "True"
+      type: Complete
+    ready: 0
+    startTime: "2025-02-21T05:44:46Z"
+    succeeded: 1
+    terminating: 0
+    uncountedTerminatedPods: {}
+kind: List
+metadata:
+  resourceVersion: ""
