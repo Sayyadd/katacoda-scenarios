@@ -1,0 +1,85 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2025-02-21T06:10:24Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-277e358b-591f-44f8-8157-4b9e7aa5f318
+    resourceVersion: "3895"
+    uid: f166d87b-fba0-46a7-b957-e5d449c4b9ab
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5G
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: prometheus-prometheus-k8s-prometheus-db-prometheus-prometheus-k8s-prometheus-0
+      namespace: monitoring
+      resourceVersion: "3797"
+      uid: 277e358b-591f-44f8-8157-4b9e7aa5f318
+    hostPath:
+      path: /var/local-path-provisioner/pvc-277e358b-591f-44f8-8157-4b9e7aa5f318_monitoring_prometheus-prometheus-k8s-prometheus-db-prometheus-prometheus-k8s-prometheus-0
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - kind-worker2
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: standard
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2025-02-21T06:10:24Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2025-02-21T06:10:14Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-b65bfd73-107b-4885-ac27-130e6e869215
+    resourceVersion: "3396"
+    uid: 85031630-0a7e-4bc9-b07b-306fd21dcd3f
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: prometheus-grafana
+      namespace: monitoring
+      resourceVersion: "3229"
+      uid: b65bfd73-107b-4885-ac27-130e6e869215
+    hostPath:
+      path: /var/local-path-provisioner/pvc-b65bfd73-107b-4885-ac27-130e6e869215_monitoring_prometheus-grafana
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - kind-worker2
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: standard
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2025-02-21T06:10:14Z"
+    phase: Bound
+kind: List
+metadata:
+  resourceVersion: ""
