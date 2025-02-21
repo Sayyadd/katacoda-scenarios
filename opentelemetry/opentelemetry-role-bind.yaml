@@ -1,0 +1,55 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator-manager"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"opentelemetry-operator-manager"},"subjects":[{"kind":"ServiceAccount","name":"opentelemetry-operator","namespace":"opentelemetry-operator"}]}
+    creationTimestamp: "2025-02-21T00:41:10Z"
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: opentelemetry-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: opentelemetry-operator
+      app.kubernetes.io/version: 0.85.0
+      helm.sh/chart: opentelemetry-operator-0.39.1
+    name: opentelemetry-operator-manager
+    resourceVersion: "5143"
+    uid: 5d488719-0ee4-4fd3-844c-f48ac82ae027
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: opentelemetry-operator-manager
+  subjects:
+  - kind: ServiceAccount
+    name: opentelemetry-operator
+    namespace: opentelemetry-operator
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator-proxy"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"opentelemetry-operator-proxy"},"subjects":[{"kind":"ServiceAccount","name":"opentelemetry-operator","namespace":"opentelemetry-operator"}]}
+    creationTimestamp: "2025-02-21T00:41:10Z"
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: opentelemetry-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: opentelemetry-operator
+      app.kubernetes.io/version: 0.85.0
+      helm.sh/chart: opentelemetry-operator-0.39.1
+    name: opentelemetry-operator-proxy
+    resourceVersion: "5144"
+    uid: dd8a02d4-7aff-4d98-b2e8-95d9e5bada2e
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: opentelemetry-operator-proxy
+  subjects:
+  - kind: ServiceAccount
+    name: opentelemetry-operator
+    namespace: opentelemetry-operator
+kind: List
+metadata:
+  resourceVersion: ""

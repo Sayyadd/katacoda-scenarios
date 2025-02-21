@@ -1,0 +1,271 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator-manager"},"rules":[{"apiGroups":[""],"resources":["configmaps"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","patch"]},{"apiGroups":[""],"resources":["namespaces"],"verbs":["list","watch"]},{"apiGroups":[""],"resources":["serviceaccounts"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":[""],"resources":["services"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["apps"],"resources":["daemonsets"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["apps"],"resources":["deployments"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["apps"],"resources":["replicasets"],"verbs":["get","list","watch"]},{"apiGroups":["apps"],"resources":["statefulsets"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["autoscaling"],"resources":["horizontalpodautoscalers"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["coordination.k8s.io"],"resources":["leases"],"verbs":["create","get","list","update"]},{"apiGroups":["monitoring.coreos.com"],"resources":["servicemonitors"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["networking.k8s.io"],"resources":["ingresses"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["opentelemetry.io"],"resources":["instrumentations"],"verbs":["get","list","patch","update","watch"]},{"apiGroups":["opentelemetry.io"],"resources":["opentelemetrycollectors"],"verbs":["get","list","patch","update","watch"]},{"apiGroups":["opentelemetry.io"],"resources":["opentelemetrycollectors/finalizers"],"verbs":["get","patch","update"]},{"apiGroups":["opentelemetry.io"],"resources":["opentelemetrycollectors/status"],"verbs":["get","patch","update"]},{"apiGroups":["route.openshift.io"],"resources":["routes","routes/custom-host"],"verbs":["create","delete","get","list","patch","update","watch"]},{"apiGroups":["discovery.k8s.io"],"resources":["endpointslices"],"verbs":["get","list","watch"]}]}
+    creationTimestamp: "2025-02-21T00:41:10Z"
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: opentelemetry-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: opentelemetry-operator
+      app.kubernetes.io/version: 0.85.0
+      helm.sh/chart: opentelemetry-operator-0.39.1
+    name: opentelemetry-operator-manager
+    resourceVersion: "5139"
+    uid: e48709f3-4823-4f81-bdfb-3efbc73a63b1
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - create
+    - patch
+  - apiGroups:
+    - ""
+    resources:
+    - namespaces
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - serviceaccounts
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - daemonsets
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - deployments
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - replicasets
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - statefulsets
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - autoscaling
+    resources:
+    - horizontalpodautoscalers
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - coordination.k8s.io
+    resources:
+    - leases
+    verbs:
+    - create
+    - get
+    - list
+    - update
+  - apiGroups:
+    - monitoring.coreos.com
+    resources:
+    - servicemonitors
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+    - ingresses
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - opentelemetry.io
+    resources:
+    - instrumentations
+    verbs:
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - opentelemetry.io
+    resources:
+    - opentelemetrycollectors
+    verbs:
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - opentelemetry.io
+    resources:
+    - opentelemetrycollectors/finalizers
+    verbs:
+    - get
+    - patch
+    - update
+  - apiGroups:
+    - opentelemetry.io
+    resources:
+    - opentelemetrycollectors/status
+    verbs:
+    - get
+    - patch
+    - update
+  - apiGroups:
+    - route.openshift.io
+    resources:
+    - routes
+    - routes/custom-host
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - discovery.k8s.io
+    resources:
+    - endpointslices
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator-metrics"},"rules":[{"nonResourceURLs":["/metrics"],"verbs":["get"]}]}
+    creationTimestamp: "2025-02-21T00:41:10Z"
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: opentelemetry-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: opentelemetry-operator
+      app.kubernetes.io/version: 0.85.0
+      helm.sh/chart: opentelemetry-operator-0.39.1
+    name: opentelemetry-operator-metrics
+    resourceVersion: "5140"
+    uid: ea931935-b7d9-4cb7-94fd-603ba3b55a8b
+  rules:
+  - nonResourceURLs:
+    - /metrics
+    verbs:
+    - get
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller-manager","app.kubernetes.io/instance":"opentelemetry-operator","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"opentelemetry-operator","app.kubernetes.io/version":"0.85.0","helm.sh/chart":"opentelemetry-operator-0.39.1"},"name":"opentelemetry-operator-proxy"},"rules":[{"apiGroups":["authentication.k8s.io"],"resources":["tokenreviews"],"verbs":["create"]},{"apiGroups":["authorization.k8s.io"],"resources":["subjectaccessreviews"],"verbs":["create"]}]}
+    creationTimestamp: "2025-02-21T00:41:10Z"
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: opentelemetry-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: opentelemetry-operator
+      app.kubernetes.io/version: 0.85.0
+      helm.sh/chart: opentelemetry-operator-0.39.1
+    name: opentelemetry-operator-proxy
+    resourceVersion: "5142"
+    uid: 8594e5d8-9c9d-4051-bea9-5fa6b783a2b5
+  rules:
+  - apiGroups:
+    - authentication.k8s.io
+    resources:
+    - tokenreviews
+    verbs:
+    - create
+  - apiGroups:
+    - authorization.k8s.io
+    resources:
+    - subjectaccessreviews
+    verbs:
+    - create
+kind: List
+metadata:
+  resourceVersion: ""
