@@ -1,0 +1,129 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/version: 9.2.0
+      helm.sh/chart: grafana-7.3.0
+    name: prometheus-grafana-clusterrolebinding
+    resourceVersion: "2811"
+    uid: b04950e8-f5a8-479f-9006-6c2d78c84dc9
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: prometheus-grafana-clusterrole
+  subjects:
+  - kind: ServiceAccount
+    name: prometheus-grafana
+    namespace: monitoring
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade,post-install,post-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    creationTimestamp: "2025-02-21T06:10:08Z"
+    labels:
+      app: kube-prometheus-stack-admission
+      app.kubernetes.io/component: prometheus-operator-webhook
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-admission
+    resourceVersion: "3290"
+    uid: eafb375b-d366-451e-8a7a-53fc17c29e22
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: prometheus-k8s-admission
+  subjects:
+  - kind: ServiceAccount
+    name: prometheus-k8s-admission
+    namespace: monitoring
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app: kube-prometheus-stack-operator
+      app.kubernetes.io/component: prometheus-operator
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-operator
+    resourceVersion: "2813"
+    uid: 109b05f6-1f08-4a7a-8ced-7517c1dba0f5
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: prometheus-k8s-operator
+  subjects:
+  - kind: ServiceAccount
+    name: prometheus-k8s-operator
+    namespace: monitoring
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app: kube-prometheus-stack-prometheus
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-prometheus
+    resourceVersion: "2814"
+    uid: 0d49cee1-d658-4144-9f2b-f84c042fa047
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: prometheus-k8s-prometheus
+  subjects:
+  - kind: ServiceAccount
+    name: prometheus-k8s-prometheus
+    namespace: monitoring
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app.kubernetes.io/component: metrics
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/part-of: kube-state-metrics
+      app.kubernetes.io/version: 2.10.1
+      helm.sh/chart: kube-state-metrics-5.16.0
+      release: prometheus
+    name: prometheus-kube-state-metrics
+    resourceVersion: "2812"
+    uid: d240cd91-b61c-4177-9503-038698d493ac
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: prometheus-kube-state-metrics
+  subjects:
+  - kind: ServiceAccount
+    name: prometheus-kube-state-metrics
+    namespace: monitoring
+kind: List
+metadata:
+  resourceVersion: ""

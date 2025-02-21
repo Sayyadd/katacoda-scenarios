@@ -1,0 +1,426 @@
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/version: 9.2.0
+      helm.sh/chart: grafana-7.3.0
+    name: prometheus-grafana-clusterrole
+    resourceVersion: "2806"
+    uid: d1eb71de-0ef0-4f42-b977-190736c36047
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    - secrets
+    verbs:
+    - get
+    - watch
+    - list
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade,post-install,post-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    creationTimestamp: "2025-02-21T06:10:08Z"
+    labels:
+      app: kube-prometheus-stack-admission
+      app.kubernetes.io/component: prometheus-operator-webhook
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-admission
+    resourceVersion: "3289"
+    uid: 7507270a-5536-4124-aee7-acf992f481bc
+  rules:
+  - apiGroups:
+    - admissionregistration.k8s.io
+    resources:
+    - validatingwebhookconfigurations
+    - mutatingwebhookconfigurations
+    verbs:
+    - get
+    - update
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app: kube-prometheus-stack-operator
+      app.kubernetes.io/component: prometheus-operator
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-operator
+    resourceVersion: "2809"
+    uid: 3016b6b8-2d65-488f-969c-cede5fe29552
+  rules:
+  - apiGroups:
+    - monitoring.coreos.com
+    resources:
+    - alertmanagers
+    - alertmanagers/finalizers
+    - alertmanagers/status
+    - alertmanagerconfigs
+    - prometheuses
+    - prometheuses/finalizers
+    - prometheuses/status
+    - prometheusagents
+    - prometheusagents/finalizers
+    - prometheusagents/status
+    - thanosrulers
+    - thanosrulers/finalizers
+    - thanosrulers/status
+    - scrapeconfigs
+    - servicemonitors
+    - podmonitors
+    - probes
+    - prometheusrules
+    verbs:
+    - '*'
+  - apiGroups:
+    - apps
+    resources:
+    - statefulsets
+    verbs:
+    - '*'
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    - secrets
+    verbs:
+    - '*'
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - list
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    - services/finalizers
+    - endpoints
+    verbs:
+    - get
+    - create
+    - update
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - nodes
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - namespaces
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - patch
+    - create
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+    - ingresses
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - storage.k8s.io
+    resources:
+    - storageclasses
+    verbs:
+    - get
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app: kube-prometheus-stack-prometheus
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/part-of: kube-prometheus-stack
+      app.kubernetes.io/version: 56.6.2
+      chart: kube-prometheus-stack-56.6.2
+      heritage: Helm
+      release: prometheus
+    name: prometheus-k8s-prometheus
+    resourceVersion: "2810"
+    uid: 76460ed5-83c0-4217-a448-078f67c3b1fc
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - nodes
+    - nodes/metrics
+    - services
+    - endpoints
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+    - ingresses
+    verbs:
+    - get
+    - list
+    - watch
+  - nonResourceURLs:
+    - /metrics
+    - /metrics/cadvisor
+    verbs:
+    - get
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+    creationTimestamp: "2025-02-21T06:09:37Z"
+    labels:
+      app.kubernetes.io/component: metrics
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/part-of: kube-state-metrics
+      app.kubernetes.io/version: 2.10.1
+      helm.sh/chart: kube-state-metrics-5.16.0
+      release: prometheus
+    name: prometheus-kube-state-metrics
+    resourceVersion: "2808"
+    uid: 74cf6104-e866-49ca-b531-432b761bf7a0
+  rules:
+  - apiGroups:
+    - certificates.k8s.io
+    resources:
+    - certificatesigningrequests
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - configmaps
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - batch
+    resources:
+    - cronjobs
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - extensions
+    - apps
+    resources:
+    - daemonsets
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - extensions
+    - apps
+    resources:
+    - deployments
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - endpoints
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - autoscaling
+    resources:
+    - horizontalpodautoscalers
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - extensions
+    - networking.k8s.io
+    resources:
+    - ingresses
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - batch
+    resources:
+    - jobs
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - coordination.k8s.io
+    resources:
+    - leases
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - limitranges
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - admissionregistration.k8s.io
+    resources:
+    - mutatingwebhookconfigurations
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - namespaces
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+    - networkpolicies
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - nodes
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - persistentvolumeclaims
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - persistentvolumes
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - policy
+    resources:
+    - poddisruptionbudgets
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - extensions
+    - apps
+    resources:
+    - replicasets
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - replicationcontrollers
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - resourcequotas
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - secrets
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - statefulsets
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - storage.k8s.io
+    resources:
+    - storageclasses
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - admissionregistration.k8s.io
+    resources:
+    - validatingwebhookconfigurations
+    verbs:
+    - list
+    - watch
+  - apiGroups:
+    - storage.k8s.io
+    resources:
+    - volumeattachments
+    verbs:
+    - list
+    - watch
+kind: List
+metadata:
+  resourceVersion: ""
